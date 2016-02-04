@@ -1,0 +1,104 @@
+﻿# Oppgave 1
+SELECT * FROM dept
+# Oppgave 2
+SELECT * FROM emp
+# Oppgave 3
+SELECT job FROM emp
+# Oppgave 4
+SELECT DISTINCT job FROM emp
+# Oppgave 5
+SELECT dname AS department, deptno FROM dept
+# Oppgave 6
+SELECT *  FROM emp WHERE deptno = 3
+# Oppgave 7
+SELECT ename, empno, deptno FROM emp WHERE job = 'Clerk'
+# Oppgave 8
+SELECT dname, deptno FROM dept WHERE deptno > 2
+# Oppgave 9
+SELECT ename, sal, comm FROM emp WHERE comm > sal
+# Oppgave 10
+SELECT ename, sal, deptno FROM emp WHERE job LIKE 'Salesman' AND sal >=1500 AND deptno = 3 ORDER BY job
+# Oppgave 11
+SELECT ename, sal, job FROM emp WHERE job = 'Manager' OR sal > 3000
+# Oppgave 12
+SELECT * FROM emp WHERE job='Manager' OR job = 'Clerk' AND deptno = 1
+# Oppgave 13
+SELECT ename, job, deptno FROM emp WHERE job = 'Manager' AND deptno NOT LIKE 3
+# Oppgave 14
+SELECT * FROM emp WHERE deptno LIKE 1 AND job NOT LIKE 'Manager' AND job NOT LIKE 'Clerk'
+# Oppgave 15
+SELECT * FROM emp WHERE sal BETWEEN 1200 AND 1400
+# Oppgave 16
+SELECT ename, job, sal FROM emp WHERE sal NOT BETWEEN 1200 AND 1400
+# Oppgave 17
+SELECT ename, job, deptno FROM emp WHERE job='Clerk' OR job='Analyst' OR job='Salesman'
+# Oppgave 18
+SELECT * FROM emp WHERE job NOT LIKE 'Clerk' AND job NOT LIKE 'Analyst' AND job NOT LIKE 'Salesman'
+# Oppgave 19
+SELECT ename, job, deptno FROM emp WHERE ename LIKE 'M%'
+# Oppgave 20
+SELECT ename, job, deptno FROM emp WHERE ename LIKE "All%n"
+# Oppgave 21
+SELECT job, ename, deptno FROM emp WHERE deptno LIKE 3 ORDER BY sal ASC
+# Oppgave 22
+SELECT ename, job, sal FROM emp ORDER BY job, sal DESC
+# Oppgave 23
+SELECT ename, job, sal FROM emp ORDER BY job, sal DESC
+# Oppgave 24
+SELECT ename, dept.loc FROM emp, dept WHERE ename = 'Allen' AND emp.deptno = dept.deptno
+# Oppgave 25
+Select dept.deptno, dept.dname, ename, job FROM dept LEFT JOIN emp ON emp.deptno = dept.deptno WHERE dept.deptno BETWEEN 3 AND 4 ORDER BY emp.deptno DESC
+# Oppgave 26
+SELECT dept.* FROM dept LEFT JOIN emp ON dept.deptno = emp.deptno WHERE emp.empno IS NULL
+# Oppgave 27
+SELECT ename, sal, comm FROM emp WHERE comm > (sal*0.25)
+# Oppgave 28
+SELECT ename, comm/sal, comm, sal FROM emp WHERE comm/sal = (comm/sal) ORDER BY comm/sal DESC
+# Oppgave 29
+SELECT ename, sal, comm, (12 * (sal + comm)) FROM emp WHERE (12 * (sal + comm))
+# Oppgave 30
+SELECT avg(sal) FROM emp WHERE (job = 'Clerk')
+# Oppgave 31
+SELECT sum(sal), sum(comm) from emp WHERE (job = 'Salesman')
+# Oppgave 32
+SELECT count(comm) FROM emp
+# Oppgave 33
+SELECT count(DISTINCT job) FROM emp WHERE deptno = 3
+# Oppgave 34
+SELECT count(*) from emp WHERE deptno = 3
+# Oppgave 35
+SELECT deptno, AVG(sal) as "Average Salary" from emp group by deptno
+# Oppgave 36
+SELECT CONCAT(dname, " - ", loc) AS Departements from dept
+# Oppgave 37
+SELECT ename, job, CASE WHEN job = 'President' THEN 5 WHEN job = 'Analyst' THEN 4 WHEN job = 'Manager' THEN 3 WHEN job = 'Salesman' THEN 2 WHEN job = 'Clerk' THEN 1 END AS job_class FROM emp
+# Oppgave 38
+SELECT SUBSTRING(ename, 2) name_part FROM emp
+# Oppgave 39
+SELECT CURRENT_DATE date
+# Oppgave 40
+SELECT DATE_FORMAT(NOW(), '%d.%m.%Y - %T') date
+# Oppgave 41
+SELECT ename, sal, comm, job FROM emp WHERE comm IS NULL
+# Oppgave 42
+SELECT ename, sal, comm, job FROM emp WHERE comm NOT LIKE 500
+# Oppgave 43
+SELECT ename, job FROM emp WHERE job = (SELECT job from emp WHERE ename = 'Jones')
+# Oppgave 44
+SELECT ename, job FROM emp WHERE deptno = 1 AND job IN (SELECT job FROM emp WHERE deptno = 3)
+# Oppgave 45
+SELECT ename, job FROM emp WHERE deptno = 1 AND job NOT IN (SELECT job FROM emp WHERE deptno = 3)
+# Oppgave 46
+SELECT ename, job, deptno, sal FROM emp WHERE job IN (SELECT job FROM emp WHERE ename = 'Ford') AND sal IN (SELECT sal FROM emp WHERE ename = 'Ford')
+# Oppgave 47
+SELECT ename, job, deptno, sal FROM emp WHERE sal >= 3000 OR job IN (SELECT job FROM emp WHERE ename = 'Jones') ORDER BY job, sal
+# Oppgave 48
+SELECT ename, job FROM emp WHERE deptno = 1 and job IN (SELECT job FROM emp, dept WHERE emp.deptno = dept.deptno AND dept.dname = 'Sales')
+# Oppgave 49
+SELECT ename, job, sal FROM emp WHERE sal = (SELECT sal FROM emp WHERE ename = 'Scott') union all SELECT ename, job, sal FROM emp WHERE sal = (SELECT sal FROM emp WHERE ename = 'Ward')
+# Oppgave 50
+SELECT ename, job FROM emp WHERE job IN (SELECT job FROM emp, dept WHERE dept.deptno = (SELECT deptno FROM dept WHERE loc = 'Chicago'))
+# Oppgave 51
+SELECT ename AS Name, sal AS Salary, (sal/(SELECT SUM(sal) FROM emp) * 100) AS 'sal/tot_sal*100' FROM emp ORDER BY (sal/(SELECT SUM(sal) FROM emp) * 100)
+# OPPGAVE 52
+SELECT CASE WHEN emp.deptno = 1 THEN 'Accounting' WHEN emp.deptno = 2 THEN 'Research' WHEN emp.deptno = 3 THEN 'Sales' END AS 'Department', SUM(sal) AS 'Sum', (SUM(sal) / (SELECT SUM(sal) FROM emp) * 100) AS 'sum(sal)/tot_sal * 100' FROM emp GROUP BY deptno
